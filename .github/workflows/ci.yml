@@ -1,46 +1,38 @@
-name: CI Pipeline
+name: CI
 
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
-  format:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Check out repository
-      uses: actions/checkout@v2
-
-    - name: Set up .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '6.0'
-
-    - name: Run code formatting check
-      run: dotnet format --check
-
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+            submodules: true
 
-    - name: Set up .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '6.0'
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '8.0' 
+          
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Install dotnet-format tool
+        run: dotnet tool install --global dotnet-format
+        env:
+          DOTNET_CLI_TELEMETRY_OPTOUT: true
 
-    - name: Build the project
-      run: dotnet build --configuration Release
+      - name: Format code
+        run: dotnet format ./OP.sln --verify-no-changes
 
-    - name: Run tests
-      run: dotnet test --configuration Release
+      - name: Run tests
+        run: dotnet test ./Tests
