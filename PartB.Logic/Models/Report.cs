@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PartB.Logic.Abstractions;
 
-namespace PartA.Logic.Models
+namespace PartB.Logic.Models
 {
-    public class Report
+    public class Report : ICloneable
     {
         public int Id { get; set; }
         public string Diagnosis { get; set; }
         public string Recommendations { get; set; }
-        public Meet Meet { get; set; }
-        public void UpdateReport(string diagnosis, string recommendations)
-        {
-            throw new NotImplementedException();
-        }
+
+        public object Clone() => MemberwiseClone();
     }
 }

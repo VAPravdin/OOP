@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Logic.Abstractions;
+using PartA.Logic.Abstractions;
 
-namespace Logic.Models
+namespace PartA.Logic.Models
 {
     public class Meet : Identity
     {

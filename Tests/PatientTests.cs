@@ -1,4 +1,4 @@
-﻿using Logic.Models;
+﻿using PartB.Logic.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +10,28 @@ namespace Tests
     public class PatientTests
     {
         [Fact]
-        public void ScheduleMeet_ShouldThrowNotImplementedException()
+        public void ScheduleMeet_ShouldAddMeetToPatient()
         {
-            var patient = new Patient();
+            var doctor = new Doctor { FullName = "Dr. Smith" };
+            var patient = new Patient { FullName = "John Doe" };
+            var meet = new Meet { Doctor = doctor, Patient = patient, Date = DateTime.Now };
 
-            Assert.Throws<NotImplementedException>(() => patient.ScheduleMeet(new Meet()));
+            patient.ScheduleMeet(meet);
+
+            Assert.Single(patient.Meets);
+            Assert.Contains(meet, patient.Meets);
         }
 
         [Fact]
-        public void CancelMeet_ShouldThrowNotImplementedException()
+        public void Clone_ShouldReturnExactCopyOfPatient()
         {
-            var patient = new Patient();
+            var patient = new Patient { FullName = "John Doe", DateOfBirth = new DateTime(1990, 1, 1) };
 
-            Assert.Throws<NotImplementedException>(() => patient.CancelMeet(new Meet()));
-        }
+            var clone = (Patient)patient.Clone();
 
-        [Fact]
-        public void GetMeets_ShouldThrowNotImplementedException()
-        {
-            var patient = new Patient();
-
-            Assert.Throws<NotImplementedException>(() => patient.GetMeets());
+            Assert.NotSame(patient, clone);
+            Assert.Equal(patient.FullName, clone.FullName);
+            Assert.Equal(patient.DateOfBirth, clone.DateOfBirth);
         }
     }
 }

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Logic\Logic.csproj" />
+    <ProjectReference Include="..\PartB.Logic\PartB.Logic.csproj" />
   </ItemGroup>
 
   <ItemGroup>

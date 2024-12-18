@@ -1,4 +1,4 @@
-﻿using Logic.Models;
+﻿using PartB.Logic.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +10,15 @@ namespace Tests
     public class ReportTests
     {
         [Fact]
-        public void UpdateReport_ShouldThrowNotImplementedException()
+        public void Clone_ShouldReturnExactCopyOfReport()
         {
-            var report = new Report();
+            var report = new Report { Diagnosis = "Flu", Recommendations = "Rest for 3 days" };
 
-            Assert.Throws<NotImplementedException>(() => report.UpdateReport("Diagnosis", "Recommendations"));
+            var clone = (Report)report.Clone();
+
+            Assert.NotSame(report, clone);
+            Assert.Equal(report.Diagnosis, clone.Diagnosis);
+            Assert.Equal(report.Recommendations, clone.Recommendations);
         }
     }
 }

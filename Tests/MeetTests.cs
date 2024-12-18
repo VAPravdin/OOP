@@ -1,4 +1,4 @@
-﻿using Logic.Models;
+﻿using PartB.Logic.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +10,26 @@ namespace Tests
     public class MeetTests
     {
         [Fact]
-        public void Reschedule_ShouldThrowNotImplementedException()
+        public void AttachReport_ShouldLinkReportToMeet()
         {
             var meet = new Meet();
+            var report = new Report { Diagnosis = "Flu", Recommendations = "Stay hydrated" };
 
-            Assert.Throws<NotImplementedException>(() => meet.Reschedule(DateTime.Now));
+            meet.AttachReport(report);
+
+            Assert.NotNull(meet.Report);
+            Assert.Equal("Flu", meet.Report.Diagnosis);
         }
 
         [Fact]
-        public void AttachReport_ShouldThrowNotImplementedException()
+        public void Reschedule_ShouldChangeMeetDate()
         {
-            var meet = new Meet();
+            var meet = new Meet { Date = DateTime.Now };
+            var newDate = meet.Date.AddDays(3);
 
-            Assert.Throws<NotImplementedException>(() => meet.AttachReport(new Report()));
+            meet.Reschedule(newDate);
+
+            Assert.Equal(newDate, meet.Date);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Logic.Models;
+﻿using PartB.Logic.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +10,50 @@ namespace Tests
     public class DoctorTests
     {
         [Fact]
-        public void ScheduleMeet_ShouldThrowNotImplementedException()
+        public void ScheduleMeet_ShouldAddMeetToDoctor()
         {
-            var doctor = new Doctor();
+            var doctor = new Doctor { FullName = "Dr. Smith" };
+            var patient = new Patient { FullName = "John Doe" };
+            var meet = new Meet { Doctor = doctor, Patient = patient, Date = DateTime.Now };
 
-            Assert.Throws<NotImplementedException>(() => doctor.ScheduleMeet(new Meet()));
+            doctor.ScheduleMeet(meet);
+
+            Assert.Single(doctor.Meets);
+            Assert.Contains(meet, doctor.Meets);
         }
 
         [Fact]
-        public void CancelMeet_ShouldThrowNotImplementedException()
+        public void Clone_ShouldReturnExactCopyOfDoctor()
         {
-            var doctor = new Doctor();
+            var doctor = new Doctor { FullName = "Dr. Smith", Specialization = "Surgery" };
 
-            Assert.Throws<NotImplementedException>(() => doctor.CancelMeet(new Meet()));
+            var clone = (Doctor)doctor.Clone();
+
+            Assert.NotSame(doctor, clone);
+            Assert.Equal(doctor.FullName, clone.FullName);
+            Assert.Equal(doctor.Specialization, clone.Specialization);
         }
 
         [Fact]
-        public void GetMeets_ShouldThrowNotImplementedException()
+        public void CompareTo_ShouldReturnZeroForEqualDoctors()
         {
-            var doctor = new Doctor();
+            var doctor1 = new Doctor { FullName = "Dr. Smith" };
+            var doctor2 = new Doctor { FullName = "Dr. Smith" };
 
-            Assert.Throws<NotImplementedException>(() => doctor.GetMeets());
+            var result = doctor1.CompareTo(doctor2);
+
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        public void CompareTo_ShouldReturnPositiveForAlphabeticallyLaterDoctor()
+        {
+            var doctor1 = new Doctor { FullName = "Dr. Smith" };
+            var doctor2 = new Doctor { FullName = "Dr. Adams" };
+
+            var result = doctor1.CompareTo(doctor2);
+
+            Assert.True(result > 0);
         }
     }
 }

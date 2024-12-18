@@ -1,40 +1,57 @@
-using Logic.Models;
-using Logic;
+using PartB.Logic.Models;
 
 namespace Tests
 {
     public class ClinicTests
     {
         [Fact]
-        public void AddDoctor_ShouldThrowNotImplementedException()
+        public void AddDoctor_ShouldAddDoctorToClinic()
         {
             var clinic = new Clinic();
+            var doctor = new Doctor { FullName = "Dr. Smith", Specialization = "Cardiology" };
 
-            Assert.Throws<NotImplementedException>(() => clinic.AddDoctor(new Doctor()));
+            clinic.AddDoctor(doctor);
+
+            Assert.Single(clinic.Doctors);
+            Assert.Contains(doctor, clinic.Doctors);
+            Assert.Equal("Dr. Smith", clinic.Doctors[0].FullName);
         }
 
         [Fact]
-        public void RemoveDoctor_ShouldThrowNotImplementedException()
+        public void RemoveDoctor_ShouldRemoveDoctorFromClinic()
         {
             var clinic = new Clinic();
+            var doctor = new Doctor { FullName = "Dr. Smith" };
 
-            Assert.Throws<NotImplementedException>(() => clinic.RemoveDoctor(new Doctor()));
+            clinic.AddDoctor(doctor);
+            clinic.RemoveDoctor(doctor);
+
+            Assert.Empty(clinic.Doctors);
         }
 
         [Fact]
-        public void AddService_ShouldThrowNotImplementedException()
+        public void AddPatient_ShouldAddPatientToClinic()
         {
             var clinic = new Clinic();
+            var patient = new Patient { FullName = "John Doe", DateOfBirth = new DateTime(1985, 1, 1) };
 
-            Assert.Throws<NotImplementedException>(() => clinic.AddService(new Service()));
+            clinic.AddPatient(patient);
+
+            Assert.Single(clinic.Patients);
+            Assert.Contains(patient, clinic.Patients);
+            Assert.Equal("John Doe", clinic.Patients[0].FullName);
         }
 
         [Fact]
-        public void RemoveService_ShouldThrowNotImplementedException()
+        public void RemovePatient_ShouldRemovePatientFromClinic()
         {
             var clinic = new Clinic();
+            var patient = new Patient { FullName = "John Doe" };
 
-            Assert.Throws<NotImplementedException>(() => clinic.RemoveService(new Service()));
+            clinic.AddPatient(patient);
+            clinic.RemovePatient(patient);
+
+            Assert.Empty(clinic.Patients);
         }
     }
 }

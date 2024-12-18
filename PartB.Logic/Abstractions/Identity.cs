@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PartA.Logic.Abstractions
+namespace PartB.Logic.Abstractions
 {
-    public interface Identity
+    public abstract class Identity
     {
-        int Id { get; set; }
+        public abstract int Id { get; set; }
     }
+
 }
